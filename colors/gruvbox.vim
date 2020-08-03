@@ -87,13 +87,14 @@ let s:gb = {}
 
 " fill it with absolute colors
 let s:gb.dark0_hard  = ['#1d2021', 234]     " 29-32-33
-let s:gb.dark0       = ['#282828', 235]     " 40-40-40
+let s:gb.dark0       = ['#1C2021', 235]     " 40-40-40
 let s:gb.dark0_soft  = ['#32302f', 236]     " 50-48-47
 let s:gb.dark1       = ['#3c3836', 237]     " 60-56-54
 let s:gb.dark2       = ['#504945', 239]     " 80-73-69
 let s:gb.dark3       = ['#665c54', 241]     " 102-92-84
 let s:gb.dark4       = ['#7c6f64', 243]     " 124-111-100
 let s:gb.dark4_256   = ['#7c6f64', 243]     " 124-111-100
+let s:gb.folded      = ['#272b2e', 235]     " 40-40-40
 
 let s:gb.gray_245    = ['#928374', 245]     " 146-131-116
 let s:gb.gray_244    = ['#928374', 244]     " 146-131-116
@@ -179,6 +180,8 @@ if s:is_dark
   let s:bg2  = s:gb.dark2
   let s:bg3  = s:gb.dark3
   let s:bg4  = s:gb.dark4
+
+  let s:folded = s:gb.folded
 
   let s:gray = s:gb.gray_245
 
@@ -310,7 +313,7 @@ if exists('g:gruvbox_number_column')
   let s:number_column = get(s:gb, g:gruvbox_number_column)
 endif
 
-let s:sign_column = s:bg1
+let s:sign_column = s:bg0
 
 if exists('g:gitgutter_override_sign_column_highlight') &&
       \ g:gitgutter_override_sign_column_highlight == 1
@@ -448,6 +451,8 @@ call s:HL('GruvboxAquaBold', s:aqua, s:none, s:bold)
 call s:HL('GruvboxOrange', s:orange)
 call s:HL('GruvboxOrangeBold', s:orange, s:none, s:bold)
 
+call s:HL('GruvboxNormalBold', s:fg1, s:none, s:bold)
+
 call s:HL('GruvboxRedSign', s:red, s:sign_column, s:invert_signs)
 call s:HL('GruvboxGreenSign', s:green, s:sign_column, s:invert_signs)
 call s:HL('GruvboxYellowSign', s:yellow, s:sign_column, s:invert_signs)
@@ -501,7 +506,7 @@ if version >= 703
   call s:HL('CursorLineNr', s:yellow, s:bg1)
 endif
 
-hi! link NonText GruvboxBg2
+hi! link NonText GruvboxBg0
 hi! link SpecialKey GruvboxBg2
 
 call s:HL('Visual',    s:none,  s:bg3, s:invert_selection)
@@ -512,11 +517,11 @@ call s:HL('IncSearch', s:hls_cursor, s:bg0, s:inverse)
 
 call s:HL('Underlined', s:blue, s:none, s:underline)
 
-call s:HL('StatusLine',   s:bg2, s:fg1, s:inverse)
+call s:HL('StatusLine',   s:bg4, s:fg0, s:inverse)
 call s:HL('StatusLineNC', s:bg1, s:fg4, s:inverse)
 
 " The column separating vertically split windows
-call s:HL('VertSplit', s:bg3, s:vert_split)
+call s:HL('VertSplit', s:bg1, s:bg1)
 
 " Current match in wildmenu completion
 call s:HL('WildMenu', s:blue, s:bg2, s:bold)
@@ -548,7 +553,7 @@ call s:HL('LineNr', s:bg4, s:number_column)
 call s:HL('SignColumn', s:none, s:sign_column)
 
 " Line used for closed folds
-call s:HL('Folded', s:gray, s:bg1, s:italic)
+call s:HL('Folded', s:fg0, s:folded, s:italic)
 " Column where folds are displayed
 call s:HL('FoldColumn', s:gray, s:bg1)
 
@@ -574,7 +579,7 @@ else
 endif
 
 call s:HL('Comment', s:gray, s:none, s:italicize_comments)
-call s:HL('Todo', s:vim_fg, s:vim_bg, s:bold . s:italic)
+call s:HL('Todo', s:red, s:vim_bg, s:bold . s:italic)
 call s:HL('Error', s:red, s:vim_bg, s:bold . s:inverse)
 
 " Generic statement
@@ -588,7 +593,7 @@ hi! link Label GruvboxRed
 " try, catch, throw
 hi! link Exception GruvboxRed
 " sizeof, "+", "*", etc.
-hi! link Operator Normal
+hi! link Operator GruvboxNormalBold
 " Any other keyword
 hi! link Keyword GruvboxRed
 
